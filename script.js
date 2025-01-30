@@ -113,8 +113,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.querySelector('.flip-board').addEventListener('click', () => {
-        board.flip();
-        makeRandomMove();
-        userColor = userColor === 'w' ? 'b' : 'w';
-    });
+    board.flip();
+    makeRandomMove();
+    userColor = userColor === 'w' ? 'b' : 'w';
+});
+
 });
