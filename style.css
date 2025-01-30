@@ -6,6 +6,7 @@
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
+
 body {
     height: 100vh;
     display: flex;
@@ -22,30 +23,35 @@ body {
     padding: 2rem;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 480px; /* Limita el tamaño máximo de la caja */
+    margin: 0 auto;
 }
 
-h1{
+h1 {
     text-align: center;
     font-weight: 500;
+    font-size: 2rem; /* Ajusta el tamaño de fuente */
 }
 
 .board {
-    width: 400px;
+    width: 100%;
+    max-width: 350px; /* Ajusta el tamaño máximo del tablero */
     margin: 20px auto;
     background-color: rgba(255, 255, 255, 0.5); /* Fondo blanco muy transparente */
-    border-radius: 10px; /* Bordes redondeados opcionales */
-    padding: 10px; /* Espaciado interno si es necesario */
+    border-radius: 10px;
+    padding: 10px;
 }
 
-
-.buttons{
+.buttons {
     margin-top: 20px;
     display: flex;
     justify-content: center;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
-button{
+button {
     color: #fff;
     background-color: #000;
     border: none;
@@ -57,17 +63,146 @@ button{
     transition: all 0.3s ease;
 }
 
-button:hover{
+button:hover {
     background-color: #434343;
 }
 
-.move-history{
+.move-history {
     margin-top: 20px;
     border: 1px solid #ccc;
     padding: 10px;
     border-radius: 5px;
     height: 100px;
-    width: 400px;
+    width: 100%;
+    max-width: 350px; /* Limita el tamaño máximo */
     overflow-y: scroll;
     background-color: #f2f2f2;
+}
+
+/* Estilos generales para el modal */
+#update-modal {
+    display: none; /* Ocultar el modal por defecto */
+    position: fixed;
+    z-index: 1; /* Asegura que esté por encima de otros elementos */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Permite el desplazamiento si el contenido es más grande que la pantalla */
+    background-color: rgba(0, 0, 0, 0.4); /* Fondo oscuro con transparencia */
+}
+
+/* Estilo para el contenido del modal */
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto; /* Centra el modal en la pantalla */
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%; /* Ancho relativo, se ajusta bien a pantallas pequeñas */
+    max-width: 500px; /* Máximo ancho para pantallas grandes */
+    box-sizing: border-box;
+    overflow-y: auto; /* Permite el desplazamiento si el contenido es más largo */
+}
+
+/* Estilo para el texto del título */
+.modal-content h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Estilo para el párrafo */
+.modal-content p {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #333;
+}
+
+/* Botón de cerrar */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Media Queries para pantallas pequeñas */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+        width: 90%;
+    }
+
+    h1 {
+        font-size: 1.5rem; /* Ajusta el tamaño del título */
+    }
+
+    .board {
+        max-width: 280px; /* Ajusta el tablero a un tamaño más pequeño */
+    }
+
+    .buttons {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .move-history {
+        max-width: 280px;
+    }
+
+    button {
+        width: 100%;
+        height: 50px; /* Botones más grandes en pantallas pequeñas */
+        font-size: 1rem;
+    }
+
+    .modal-content {
+        width: 90%; /* Aumenta el ancho para pantallas más pequeñas */
+        padding: 15px; /* Reduce el padding para ahorrar espacio */
+    }
+
+    .modal-content h2 {
+        font-size: 1.2rem; /* Reduce el tamaño del título */
+    }
+
+    .modal-content p {
+        font-size: 0.9rem; /* Ajusta el tamaño del texto para pantallas pequeñas */
+    }
+}
+
+/* Media Queries para pantallas muy pequeñas */
+@media (max-width: 480px) {
+    .modal-content {
+        width: 95%; /* Aumenta aún más el ancho en dispositivos muy pequeños */
+        padding: 10px; /* Reduce el padding */
+    }
+
+    .modal-content h2 {
+        font-size: 1rem; /* Reduce más el tamaño del título */
+    }
+
+    .modal-content p {
+        font-size: 0.85rem; /* Ajusta el tamaño del texto aún más */
+    }
+
+    h1 {
+        font-size: 1.2rem; /* Ajusta el tamaño del título */
+    }
+
+    .move-history {
+        height: 80px; /* Ajusta la altura de la historia de movimientos */
+    }
+
+    button {
+        height: 55px; /* Botones más grandes en pantallas muy pequeñas */
+        font-size: 1.1rem; /* Ajusta la fuente de los botones */
+    }
 }

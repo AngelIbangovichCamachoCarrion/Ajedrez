@@ -35,20 +35,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const checkForAlerts = () => {
         if (game.in_checkmate()) {
-            alert("¡Jaque mate!");
+            if (game.turn() === 'w') {
+                alert("¡Jaque mate! El negro ha ganado.");
+            } else {
+                alert("¡Jaque mate! El blanco ha ganado.");
+            }
         } else if (game.in_check()) {
-            alert("¡Estás en jaque!");
+            if (game.turn() === 'w') {
+                alert("¡El blanco está en jaque!");
+            } else {
+                alert("¡El negro está en jaque!");
+            }
         } else if (game.in_stalemate()) {
-            alert("¡Tablas por estancamiento!");
+            if (game.turn() === 'w') {
+                alert("¡Tablas por estancamiento! El blanco no tiene movimientos legales.");
+            } else {
+                alert("¡Tablas por estancamiento! El negro no tiene movimientos legales.");
+            }
         } else if (game.in_threefold_repetition()) {
-            alert("¡Tablas por repetición!");
+            alert("¡Tablas por repetición! La misma posición ha ocurrido tres veces.");
         }
     };
+    
 
+        // Ajustar onDragStart para permitir jugar con el color actual
     const onDragStart = (source, piece) => {
         return !game.game_over() && piece.startsWith(userColor);
     };
 
+    // Modificación para enroque en `onDrop`
     const onDrop = (source, target) => {
         const move = game.move({
             from: source,
@@ -62,7 +77,11 @@ document.addEventListener('DOMContentLoaded', () => {
         moveCount++;
 
         if (move.san === "O-O" || move.san === "O-O-O") {
-            alert("¡Has hecho un enroque!");
+            if (move.color === 'w') {
+                alert("¡El blanco ha realizado un enroque!");
+            } else {
+                alert("¡El negro ha realizado un enroque!");
+            }
         }
 
         checkForAlerts();
@@ -99,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.querySelector('.set-pos').addEventListener('click', () => {
-        const fen = prompt("Enter the FEN notation for the desired position!");
+        const fen = prompt("¡Ingrese la notación FEN para la posición deseada!");
         if (fen !== null) {
             if (game.load(fen)) {
                 board.position(fen);
@@ -113,9 +132,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.querySelector('.flip-board').addEventListener('click', () => {
-    board.flip();
-    makeRandomMove();
-    userColor = userColor === 'w' ? 'b' : 'w';
-});
+        board.flip();
+        userColor = userColor === 'w' ? 'b' : 'w';
+    
+        // Si ahora el usuario juega con negras, la IA debe hacer el primer movimiento
+        if (userColor === 'b' && game.turn() === 'w') {
+            setTimeout(makeRandomMove, 250);
+        }
+    });
+    
+    
 
 });
