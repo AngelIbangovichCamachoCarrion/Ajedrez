@@ -5,28 +5,48 @@ document.addEventListener('DOMContentLoaded', () => {
     let moveCount = 1;
     let userColor = 'w';
 
-    const makeRandomMove = () =>{
-        const possibleMoves = game.moves();
-
-        if(game.game_over()){
-            alert("Checkmate!");
-        } else {
-            const randomIdx = Math.floor(Math.random() * possibleMoves.length);
-            const move = possibleMoves[randomIdx];
-            game.move(move);
-            board.position(game.fen());
-            recordMove(move, moveCount);
-            moveCount++;
+    const makeRandomMove = () => {
+        if (game.game_over()) {
+            checkForAlerts(); 
+            return;
         }
+
+        const possibleMoves = game.moves();
+        if (possibleMoves.length === 0) {
+            checkForAlerts();
+            return;
+        }
+
+        const randomIdx = Math.floor(Math.random() * possibleMoves.length);
+        const move = possibleMoves[randomIdx];
+        game.move(move);
+        board.position(game.fen());
+        recordMove(move, moveCount);
+        moveCount++;
+
+        checkForAlerts();
     };
+
     const recordMove = (move, count) => {
         const formattedMove = count % 2 === 1 ? `${Math.ceil(count / 2)}. ${move}` : `${move} -`;
         moveHistory.textContent += formattedMove + ' ';
         moveHistory.scrollTop = moveHistory.scrollHeight;
     };
 
+    const checkForAlerts = () => {
+        if (game.in_checkmate()) {
+            alert("¡Jaque mate!");
+        } else if (game.in_check()) {
+            alert("¡Estás en jaque!");
+        } else if (game.in_stalemate()) {
+            alert("¡Tablas por estancamiento!");
+        } else if (game.in_threefold_repetition()) {
+            alert("¡Tablas por repetición!");
+        }
+    };
+
     const onDragStart = (source, piece) => {
-        return !game.game_over() && piece.search(userColor) === 0;
+        return !game.game_over() && piece.startsWith(userColor);
     };
 
     const onDrop = (source, target) => {
@@ -38,15 +58,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (move === null) return 'snapback';
 
-        window.setTimeout(makeRandomMove, 250);
-        recordMove(move.san, moveCount); 
+        recordMove(move.san, moveCount);
         moveCount++;
+
+        if (move.san === "O-O" || move.san === "O-O-O") {
+            alert("¡Has hecho un enroque!");
+        }
+
+        checkForAlerts();
+
+        if (!game.game_over()) {
+            window.setTimeout(makeRandomMove, 250);
+        }
     };
 
     const onSnapEnd = () => {
         board.position(game.fen());
     };
-
 
     const boardConfig = {
         showNotation: true,
@@ -89,4 +117,4 @@ document.addEventListener('DOMContentLoaded', () => {
         makeRandomMove();
         userColor = userColor === 'w' ? 'b' : 'w';
     });
-})
+});

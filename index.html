@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="css/chessboard-1.0.0.min.css">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="anuncio.css">
     <title>Juego de Ajedrez</title>
 </head>
 <body>
@@ -21,10 +22,20 @@
         <div id="move-history" class="move-history"></div>
     </div>
 
+
+    <div id="update-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>!Nueva Actualizacion Version 1.0!</h2>
+            <p>Se ha mejorado las alertas en jugadas por ejemplo cuando haces enroque , jaque , jaquemate aparecera una alerta para mostrarte que hicistes el movimiento</p>
+        </div>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="js/chessboard-1.0.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
     <script src="script.js"></script>
+    <script src="js/anuncio.js"></script>
     
 </body>
 </html>
